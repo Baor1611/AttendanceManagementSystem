@@ -69,7 +69,7 @@ public class MainFrame extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Attendance Management Application");
-        setBackground(new java.awt.Color(153, 51, 255));
+        setBackground(new java.awt.Color(255, 255, 255));
         setResizable(false);
 
         modifyButton.setText("Modify");
@@ -219,28 +219,29 @@ public class MainFrame extends javax.swing.JFrame {
             .addGroup(examEgiPanelLayout.createSequentialGroup()
                 .addGroup(examEgiPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(examEgiPanelLayout.createSequentialGroup()
-                        .addGap(67, 67, 67)
-                        .addComponent(jLabel5))
+                        .addGroup(examEgiPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(examEgiPanelLayout.createSequentialGroup()
+                                .addGap(67, 67, 67)
+                                .addComponent(jLabel5))
+                            .addGroup(examEgiPanelLayout.createSequentialGroup()
+                                .addGap(20, 20, 20)
+                                .addComponent(sidViewTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(82, 82, 82)
+                        .addGroup(examEgiPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(syViewTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(examEgiPanelLayout.createSequentialGroup()
+                                .addGap(47, 47, 47)
+                                .addComponent(jLabel6)))
+                        .addGap(86, 86, 86)
+                        .addGroup(examEgiPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(termViewTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(examEgiPanelLayout.createSequentialGroup()
+                                .addGap(67, 67, 67)
+                                .addComponent(jLabel7))))
                     .addGroup(examEgiPanelLayout.createSequentialGroup()
-                        .addGap(20, 20, 20)
-                        .addComponent(sidViewTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(82, 82, 82)
-                .addGroup(examEgiPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(syViewTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(examEgiPanelLayout.createSequentialGroup()
-                        .addGap(47, 47, 47)
-                        .addComponent(jLabel6)))
-                .addGap(86, 86, 86)
-                .addGroup(examEgiPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(termViewTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(examEgiPanelLayout.createSequentialGroup()
-                        .addGap(67, 67, 67)
-                        .addComponent(jLabel7)))
+                        .addGap(347, 347, 347)
+                        .addComponent(viewButton)))
                 .addGap(16, 16, 16))
-            .addGroup(examEgiPanelLayout.createSequentialGroup()
-                .addGap(347, 347, 347)
-                .addComponent(viewButton)
-                .addContainerGap())
         );
         examEgiPanelLayout.setVerticalGroup(
             examEgiPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -294,7 +295,6 @@ public class MainFrame extends javax.swing.JFrame {
         tablePane.setAlignmentY(1.0F);
         tablePane.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
 
-        dataTable.setBackground(new java.awt.Color(255, 153, 255));
         dataTable.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
         dataTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -394,7 +394,7 @@ public class MainFrame extends javax.swing.JFrame {
                 try (ResultSet resultSet = statement.executeQuery()) {
                     DefaultTableModel newModel = new DefaultTableModel(
                             new Object[][]{},
-                            new String[]{"Student ID", "Last Name", "First Name", "Examination Eligibility"});
+                            new String[]{"Student ID", "Last Name", "First Name", "Number of absences"});
                     while (resultSet.next()) {
                         String studentID = resultSet.getString("StudentID");
                         String lastName = resultSet.getString("LastName");
