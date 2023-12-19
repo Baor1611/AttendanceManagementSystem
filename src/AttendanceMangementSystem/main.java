@@ -10,7 +10,7 @@ package AttendanceMangementSystem;
  */
 public class main {
     static String dbUsername = "sa";
-    static String dbPassword = "heosua123";
+    static String dbPassword = "sa";
 
     static String jdbcUrl = "jdbc:sqlserver://localhost:1434;databaseName=AttendanceManagementSystem;user=" + dbUsername + ";password=" + dbPassword;
 
