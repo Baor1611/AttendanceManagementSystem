@@ -491,9 +491,13 @@ public class MainFrame extends javax.swing.JFrame {
                                     try {
                                         newAttendanceStatus = Float.parseFloat(stringValue);
                                     } catch (NumberFormatException ex) {
-                                        System.err.println("Invalid float value: " + stringValue);
+                                        JOptionPane.showMessageDialog(null, "Invalid value!", "Error", JOptionPane.WARNING_MESSAGE);
                                     }
-                                    updateAttendanceInDatabase(studentID, subjectID, lessonID, newAttendanceStatus);
+                                    if (newAttendanceStatus == 0.0 || newAttendanceStatus == 0.5 || newAttendanceStatus == 1.0){
+                                    updateAttendanceInDatabase(studentID, subjectID, lessonID, newAttendanceStatus);}
+                                    else{
+                                        JOptionPane.showMessageDialog(null, "Invalid value!", "Error", JOptionPane.WARNING_MESSAGE);
+                                    }
                                 }
                             }
                         }
@@ -508,7 +512,6 @@ public class MainFrame extends javax.swing.JFrame {
     private boolean isInstructorOrAdmin(String instructorID, String subjectID) {
     try (Connection connection = DriverManager.getConnection(main.jdbcUrl, main.dbUsername, main.dbPassword)) {
         String querySql = "SELECT 1 FROM Course WHERE InstructorID = ? AND SubjectID = ?";
-        System.out.printf(subjectID);
         try (PreparedStatement preparedStatement = connection.prepareStatement(querySql)) {
             preparedStatement.setString(1, instructorID);
             preparedStatement.setString(2, subjectID);
@@ -525,7 +528,6 @@ public class MainFrame extends javax.swing.JFrame {
     
     private void updateAttendanceInDatabase(String studentID, String subjectID, int lessonID, float newAttendanceStatus) {
             boolean hasPermission = isInstructorOrAdmin(InstructorID, subjectID) || "sa".equals(InstructorID);
-            System.out.println("Has Permission: " + hasPermission);
         if (hasPermission){
         try (Connection connection = DriverManager.getConnection(main.jdbcUrl, main.dbUsername, main.dbPassword)) {
             String updateSql = "UPDATE Attendance SET AttendanceStatus = ? "
@@ -537,7 +539,6 @@ public class MainFrame extends javax.swing.JFrame {
                 updateStatement.setInt(3, lessonID);
 
                 int rowsUpdated = updateStatement.executeUpdate();
-                System.out.println(rowsUpdated);
                 if (rowsUpdated > 0) {
                     JOptionPane.showMessageDialog(null, "Attendance updated successfully!");
                 } else {
