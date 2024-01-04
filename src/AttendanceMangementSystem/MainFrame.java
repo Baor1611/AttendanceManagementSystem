@@ -419,7 +419,8 @@ public class MainFrame extends javax.swing.JFrame {
 
         return 0;
     }
-
+    
+    
     private void modifyButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_modifyButtonActionPerformed
 
         try (Connection connection = DriverManager.getConnection(main.jdbcUrl, main.dbUsername, main.dbPassword)) {
@@ -492,7 +493,7 @@ public class MainFrame extends javax.swing.JFrame {
                                     } catch (NumberFormatException ex) {
                                         System.err.println("Invalid float value: " + stringValue);
                                     }
-                                    updateAttendanceInDatabase(studentID, lessonID, newAttendanceStatus);
+                                    updateAttendanceInDatabase(studentID, subjectID, lessonID, newAttendanceStatus);
                                 }
                             }
                         }
@@ -503,9 +504,29 @@ public class MainFrame extends javax.swing.JFrame {
             e.printStackTrace();
         }
     }//GEN-LAST:event_modifyButtonActionPerformed
-
-    private void updateAttendanceInDatabase(String studentID, int lessonID, float newAttendanceStatus) {
-        
+    
+    private boolean isInstructorOrAdmin(String instructorID, String subjectID) {
+    try (Connection connection = DriverManager.getConnection(main.jdbcUrl, main.dbUsername, main.dbPassword)) {
+        String querySql = "SELECT 1 FROM Course WHERE InstructorID = ? AND SubjectID = ?";
+        System.out.printf(subjectID);
+        try (PreparedStatement preparedStatement = connection.prepareStatement(querySql)) {
+            preparedStatement.setString(1, instructorID);
+            preparedStatement.setString(2, subjectID);
+            
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                return resultSet.next();
+            }
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+    return false;
+}
+    
+    private void updateAttendanceInDatabase(String studentID, String subjectID, int lessonID, float newAttendanceStatus) {
+            boolean hasPermission = isInstructorOrAdmin(InstructorID, subjectID) || "sa".equals(InstructorID);
+            System.out.println("Has Permission: " + hasPermission);
+        if (hasPermission){
         try (Connection connection = DriverManager.getConnection(main.jdbcUrl, main.dbUsername, main.dbPassword)) {
             String updateSql = "UPDATE Attendance SET AttendanceStatus = ? "
                     + "WHERE StudentID = ? AND LessonID = ?";
@@ -516,7 +537,7 @@ public class MainFrame extends javax.swing.JFrame {
                 updateStatement.setInt(3, lessonID);
 
                 int rowsUpdated = updateStatement.executeUpdate();
-
+                System.out.println(rowsUpdated);
                 if (rowsUpdated > 0) {
                     JOptionPane.showMessageDialog(null, "Attendance updated successfully!");
                 } else {
@@ -526,8 +547,10 @@ public class MainFrame extends javax.swing.JFrame {
         } catch (SQLException ex) {
             // Handle SQLException
             ex.printStackTrace();
-        }
-    }
+        }}
+        else{
+            JOptionPane.showMessageDialog(null, "You don't have permission to change this student's attendance status.", "Permission Denied", JOptionPane.WARNING_MESSAGE);}
+}
 
     private void sidModifyTxtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sidModifyTxtActionPerformed
         // TODO add your handling code here:
