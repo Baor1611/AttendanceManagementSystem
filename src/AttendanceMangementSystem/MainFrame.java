@@ -28,6 +28,7 @@ public class MainFrame extends javax.swing.JFrame {
         initComponents();
         examEgiPanel.setVisible(false);
         attenWorkPanel.setVisible(false);
+        setLocationRelativeTo(null);
     }
 
     public String getIID() {

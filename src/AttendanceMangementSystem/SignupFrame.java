@@ -15,6 +15,7 @@ public class SignupFrame extends javax.swing.JFrame {
 
     public SignupFrame() {
         initComponents();
+        setLocationRelativeTo(null);        
     }
 
     @SuppressWarnings("unchecked")
