@@ -367,7 +367,7 @@ public class MainFrame extends javax.swing.JFrame {
                     + "FROM Student s "
                     + "JOIN Enroll e ON s.StudentID = e.StudentID "
                     + "JOIN Course c ON e.CourseID = c.CourseID "
-                    + "WHERE c.SubjectID = ? AND c.SchoolYear = ? AND c.Term = ? "
+                    + "WHERE c.CourseID = ? AND c.SchoolYear = ? AND c.Term = ? "
                     + "ORDER BY s.FirstName";
 
             try (PreparedStatement statement = connection.prepareStatement(sql)) {
@@ -401,9 +401,9 @@ public class MainFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_viewButtonActionPerformed
 
     private int calculateAbsenceCount(Connection connection, String studentID, String subjectID) throws SQLException {
-        String absenceCountQuery = "SELECT SUM(CASE WHEN AttendanceStatus =0 THEN 1 ELSE 0 END) AS TotalAbsenceCount \n" +
-"                 FROM Attendance a\n" +
-"                 WHERE a.StudentID = ? AND a.CourseID = ?";
+        String absenceCountQuery = "SELECT SUM(CASE WHEN AttendanceStatus =0 THEN 1 ELSE 0 END) AS TotalAbsenceCount " +
+                    "FROM Attendance a " +
+                    "WHERE a.StudentID = ? AND a.CourseID = ?";
         try (PreparedStatement countStatement = connection.prepareStatement(absenceCountQuery)) {
             countStatement.setString(1, studentID);
             countStatement.setString(2, subjectID);
@@ -442,7 +442,7 @@ public class MainFrame extends javax.swing.JFrame {
                     + "                    AND l.LessonID = a.LessonID "
                     + "                    AND l.CourseID = a.CourseID "
                     + "                    AND l.InstructorID = a.InstructorID "
-                    + "WHERE c.SubjectID = ? AND l.LessonID = ? AND c.SchoolYear = ? AND c.Term = ? "
+                    + "WHERE c.CourseID = ? AND l.LessonID = ? AND c.SchoolYear = ? AND c.Term = ? "
                     + "ORDER BY s.FirstName";
             try (PreparedStatement statement = connection.prepareStatement(sql)) {
                 statement.setString(1, subjectID);
