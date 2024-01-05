@@ -72,14 +72,14 @@ public class MainFrame extends javax.swing.JFrame {
         viewButton = new javax.swing.JButton();
         bottomPanel1 = new javax.swing.JPanel();
         jPanel7 = new javax.swing.JPanel();
-        syViewTxt = new javax.swing.JTextField();
+        sidViewTxt = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
         jPanel8 = new javax.swing.JPanel();
-        termViewTxt = new javax.swing.JTextField();
+        syViewTxt = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
         jPanel9 = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
-        sidViewTxt = new javax.swing.JTextField();
+        termViewTxt = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Attendance Management Application");
@@ -278,13 +278,13 @@ public class MainFrame extends javax.swing.JFrame {
         jPanel7.setPreferredSize(new java.awt.Dimension(150, 60));
         jPanel7.setLayout(new java.awt.BorderLayout(0, 10));
 
-        syViewTxt.setPreferredSize(new java.awt.Dimension(68, 30));
-        syViewTxt.addKeyListener(new java.awt.event.KeyAdapter() {
+        sidViewTxt.setPreferredSize(new java.awt.Dimension(68, 30));
+        sidViewTxt.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
-                syViewTxtKeyPressed(evt);
+                sidViewTxtKeyPressed(evt);
             }
         });
-        jPanel7.add(syViewTxt, java.awt.BorderLayout.CENTER);
+        jPanel7.add(sidViewTxt, java.awt.BorderLayout.CENTER);
 
         jLabel5.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -297,17 +297,17 @@ public class MainFrame extends javax.swing.JFrame {
         jPanel8.setPreferredSize(new java.awt.Dimension(150, 60));
         jPanel8.setLayout(new java.awt.BorderLayout(0, 10));
 
-        termViewTxt.addActionListener(new java.awt.event.ActionListener() {
+        syViewTxt.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                termViewTxtActionPerformed(evt);
+                syViewTxtActionPerformed(evt);
             }
         });
-        termViewTxt.addKeyListener(new java.awt.event.KeyAdapter() {
+        syViewTxt.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
-                termViewTxtKeyPressed(evt);
+                syViewTxtKeyPressed(evt);
             }
         });
-        jPanel8.add(termViewTxt, java.awt.BorderLayout.CENTER);
+        jPanel8.add(syViewTxt, java.awt.BorderLayout.CENTER);
 
         jLabel6.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -326,12 +326,12 @@ public class MainFrame extends javax.swing.JFrame {
         jLabel7.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jPanel9.add(jLabel7, java.awt.BorderLayout.PAGE_START);
 
-        sidViewTxt.addKeyListener(new java.awt.event.KeyAdapter() {
+        termViewTxt.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
-                sidViewTxtKeyPressed(evt);
+                termViewTxtKeyPressed(evt);
             }
         });
-        jPanel9.add(sidViewTxt, java.awt.BorderLayout.CENTER);
+        jPanel9.add(termViewTxt, java.awt.BorderLayout.CENTER);
 
         bottomPanel1.add(jPanel9);
 
@@ -555,12 +555,6 @@ public class MainFrame extends javax.swing.JFrame {
         
     }//GEN-LAST:event_viewButtonKeyPressed
 
-    private void termViewTxtKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_termViewTxtKeyPressed
-        if(evt.getKeyCode()==KeyEvent.VK_ENTER){
-            viewButtonActionPerformed(null);
-        }
-    }//GEN-LAST:event_termViewTxtKeyPressed
-
     private void syViewTxtKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_syViewTxtKeyPressed
         if(evt.getKeyCode()==KeyEvent.VK_ENTER){
             viewButtonActionPerformed(null);
@@ -572,6 +566,12 @@ public class MainFrame extends javax.swing.JFrame {
             viewButtonActionPerformed(null);
         }
     }//GEN-LAST:event_sidViewTxtKeyPressed
+
+    private void termViewTxtKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_termViewTxtKeyPressed
+        if(evt.getKeyCode()==KeyEvent.VK_ENTER){
+            viewButtonActionPerformed(null);
+        }
+    }//GEN-LAST:event_termViewTxtKeyPressed
 
     private void termModifyTxtKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_termModifyTxtKeyPressed
         if(evt.getKeyCode()==KeyEvent.VK_ENTER){
@@ -605,9 +605,9 @@ public class MainFrame extends javax.swing.JFrame {
         examPanel();
     }//GEN-LAST:event_ExamEligiMouseClicked
 
-    private void termViewTxtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_termViewTxtActionPerformed
+    private void syViewTxtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_syViewTxtActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_termViewTxtActionPerformed
+    }//GEN-LAST:event_syViewTxtActionPerformed
 
     /**
      * @param args the command line arguments
