@@ -364,13 +364,7 @@ public class MainFrame extends javax.swing.JFrame {
             String schoolYear = syViewTxt.getText();
             String term = termViewTxt.getText();
             String InstructorID = this.InstructorID;
-            /*String sql2 = "SELECT s.StudentID, s.LastName, s.FirstName "
-                    + "FROM Student s "
-                    + "JOIN Enroll e ON s.StudentID = e.StudentID "
-                    + "JOIN Course c ON e.CourseID = c.CourseID "
-                    + "WHERE c.CourseID = ? AND c.SchoolYear = ? AND c.Term = ? "
-                    + "ORDER BY s.FirstName";
-            */
+
             String sql = "Select S.StudentID, S.LastName, S.FirstName, SUM(A.AttendanceStatus) as Absence " 
                     + "From Student S, Attendance A, Course C, Enroll E " 
                     + "Where C.InstructorID = ? And C.SubjectID = ? And C.SchoolYear = ? And C.Term = ? " 
@@ -397,11 +391,6 @@ public class MainFrame extends javax.swing.JFrame {
                         String absence = resultSet.getString("Absence");
                         newModel.addRow(new Object[]{studentID, lastName, firstName, absence});
                     }
-                    /* for (int row = 0; row < newModel.getRowCount(); row++) {
-                        String studentID = (String) newModel.getValueAt(row, 0);
-                        int absenceCount = calculateAbsenceCount(connection, studentID, subjectID);
-                        newModel.setValueAt(absenceCount, row, 3);
-                    } */
                     dataTable.setModel(newModel);
 
                 }
