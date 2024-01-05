@@ -87,6 +87,7 @@ public class MainFrame extends javax.swing.JFrame {
         setMaximumSize(new java.awt.Dimension(1200, 664));
         setMinimumSize(new java.awt.Dimension(1200, 664));
         setPreferredSize(new java.awt.Dimension(1200, 664));
+        setResizable(false);
         setSize(new java.awt.Dimension(1200, 664));
         getContentPane().setLayout(new java.awt.FlowLayout());
 
@@ -381,8 +382,6 @@ public class MainFrame extends javax.swing.JFrame {
                         String studentID = resultSet.getString("StudentID");
                         String lastName = resultSet.getString("LastName");
                         String firstName = resultSet.getString("FirstName");
-
-                        // Add a new row to the model
                         newModel.addRow(new Object[]{studentID, lastName, firstName});
                     }
                     for (int row = 0; row < newModel.getRowCount(); row++) {
@@ -432,7 +431,6 @@ public class MainFrame extends javax.swing.JFrame {
             try {
                 lessonID = Integer.parseInt(lessonIDString);
             } catch (NumberFormatException e) {
-                // Handle the case where lessonID is not a valid integer
                 System.err.println("Invalid lessonID: " + lessonIDString);
                 return;
             }
@@ -454,14 +452,12 @@ public class MainFrame extends javax.swing.JFrame {
                 statement.setString(3, schoolYear);
                 statement.setString(4, term);
                 try (ResultSet resultSet = statement.executeQuery()) {
-                    // Create a new table model
                     DefaultTableModel newModel = new DefaultTableModel(
                             new Object[][]{},
                             new String[]{"Student ID", "Last Name", "First Name", "Attendance Status"}
                     ) {
                         @Override
                         public boolean isCellEditable(int row, int column) {
-                            // Allow editing only for the "Attendance Status" column
                             return column == 3;
                         }
                     };
@@ -475,7 +471,6 @@ public class MainFrame extends javax.swing.JFrame {
                         newModel.addRow(new Object[]{sid, lastName, firstName, attendanceStatus});
                     }
 
-                    // Set the new model to the existing JTable
                     dataTable.setModel(newModel);
                     dataTable.getModel().addTableModelListener(new TableModelListener() {
                         @Override
@@ -484,7 +479,7 @@ public class MainFrame extends javax.swing.JFrame {
                                 int row = e.getFirstRow();
                                 int column = e.getColumn();
 
-                                if (column == 3) { // Check if the changed column is "Attendance Status"
+                                if (column == 3) {
                                     String studentID = dataTable.getValueAt(row, 0).toString();
                                     String stringValue = dataTable.getValueAt(row, column).toString();
                                     float newAttendanceStatus = 0.0f;
@@ -546,7 +541,6 @@ public class MainFrame extends javax.swing.JFrame {
                 }
             }
         } catch (SQLException ex) {
-            // Handle SQLException
             ex.printStackTrace();
         }}
         else{
