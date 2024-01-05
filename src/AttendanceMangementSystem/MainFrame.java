@@ -380,7 +380,6 @@ public class MainFrame extends javax.swing.JFrame {
                     + "And S.StudentID = A.StudentID " 
                     + "Group by S.StudentID, S.LastName, S.FirstName "
                     + "Order by S.FirstName ";
-            System.out.println(sql);
            
             try (PreparedStatement statement = connection.prepareStatement(sql)) {                
                 statement.setString(1, InstructorID);                
@@ -448,8 +447,8 @@ public class MainFrame extends javax.swing.JFrame {
             }
             String sql = "Select S.StudentID, S.LastName, S.FirstName, A.AttendanceStatus " +
                     "From Student S, Attendance A, Course C, Enroll E, Lesson L " +
-                    "Where C.InstructorID = ? " +
-                    "And C.SubjectID = ? " +
+                    //"Where C.InstructorID = ? " +
+                    "Where C.SubjectID = ? " +
                     "And C.SchoolYear = ? " +
                     "And C.Term = ? " +
                     "And L.LessonID = ? " +
@@ -463,11 +462,11 @@ public class MainFrame extends javax.swing.JFrame {
                     "And L.Date = A.Date " +
                     "Order by S.FirstName ";
             try (PreparedStatement statement = connection.prepareStatement(sql)) {
-                statement.setString(1, this.InstructorID);                
-                statement.setString(2, subjectID);
-                statement.setInt(5, lessonID);
-                statement.setString(3, schoolYear);
-                statement.setString(4, term);
+                //statement.setString(1, this.InstructorID);                
+                statement.setString(1, subjectID);
+                statement.setInt(4, lessonID);
+                statement.setString(2, schoolYear);
+                statement.setString(3, term);
                 
                 try (ResultSet resultSet = statement.executeQuery()) {
                     DefaultTableModel newModel = new DefaultTableModel(
