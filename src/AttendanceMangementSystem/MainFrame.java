@@ -29,6 +29,7 @@ public class MainFrame extends javax.swing.JFrame {
         examEgiPanel.setVisible(false);
         attenWorkPanel.setVisible(false);
         setLocationRelativeTo(null);
+        
     }
 
     public String getIID() {
@@ -362,18 +363,30 @@ public class MainFrame extends javax.swing.JFrame {
             String subjectID = sidViewTxt.getText();
             String schoolYear = syViewTxt.getText();
             String term = termViewTxt.getText();
-
-            String sql = "SELECT s.StudentID, s.LastName, s.FirstName "
+            String InstructorID = this.InstructorID;
+            /*String sql2 = "SELECT s.StudentID, s.LastName, s.FirstName "
                     + "FROM Student s "
                     + "JOIN Enroll e ON s.StudentID = e.StudentID "
                     + "JOIN Course c ON e.CourseID = c.CourseID "
                     + "WHERE c.CourseID = ? AND c.SchoolYear = ? AND c.Term = ? "
                     + "ORDER BY s.FirstName";
-
-            try (PreparedStatement statement = connection.prepareStatement(sql)) {
-                statement.setString(1, subjectID);
-                statement.setString(2, schoolYear);
-                statement.setString(3, term);
+            */
+            String sql = "Select S.StudentID, S.LastName, S.FirstName, SUM(A.AttendanceStatus) as Absence " 
+                    + "From Student S, Attendance A, Course C, Enroll E " 
+                    + "Where C.InstructorID = ? And C.SubjectID = ? And C.SchoolYear = ? And C.Term = ? " 
+                    + "And C.CourseID = E.CourseID " 
+                    + "And C.CourseID = A.CourseID " 
+                    + "And E.StudentID = S.StudentID " 
+                    + "And S.StudentID = A.StudentID " 
+                    + "Group by S.StudentID, S.LastName, S.FirstName "
+                    + "Order by S.FirstName ";
+            System.out.println(sql);
+           
+            try (PreparedStatement statement = connection.prepareStatement(sql)) {                
+                statement.setString(1, InstructorID);                
+                statement.setString(2, subjectID);
+                statement.setString(3, schoolYear);
+                statement.setString(4, term);
                 try (ResultSet resultSet = statement.executeQuery()) {
                     DefaultTableModel newModel = new DefaultTableModel(
                             new Object[][]{},
@@ -382,13 +395,14 @@ public class MainFrame extends javax.swing.JFrame {
                         String studentID = resultSet.getString("StudentID");
                         String lastName = resultSet.getString("LastName");
                         String firstName = resultSet.getString("FirstName");
-                        newModel.addRow(new Object[]{studentID, lastName, firstName});
+                        String absence = resultSet.getString("Absence");
+                        newModel.addRow(new Object[]{studentID, lastName, firstName, absence});
                     }
-                    for (int row = 0; row < newModel.getRowCount(); row++) {
+                    /* for (int row = 0; row < newModel.getRowCount(); row++) {
                         String studentID = (String) newModel.getValueAt(row, 0);
                         int absenceCount = calculateAbsenceCount(connection, studentID, subjectID);
                         newModel.setValueAt(absenceCount, row, 3);
-                    }
+                    } */
                     dataTable.setModel(newModel);
 
                 }
@@ -432,23 +446,29 @@ public class MainFrame extends javax.swing.JFrame {
                 System.err.println("Invalid lessonID: " + lessonIDString);
                 return;
             }
-            String sql = "SELECT s.StudentID, s.LastName, s.FirstName, a.AttendanceStatus "
-                    + "FROM Student s "
-                    + "JOIN Enroll e ON s.StudentID = e.StudentID "
-                    + "JOIN Course c ON e.CourseID = c.CourseID "
-                    + "JOIN Lesson l ON c.CourseID = l.CourseID "
-                    + "LEFT JOIN Attendance a ON s.StudentID = a.StudentID "
-                    + "                    AND l.Date = a.Date "
-                    + "                    AND l.LessonID = a.LessonID "
-                    + "                    AND l.CourseID = a.CourseID "
-                    + "                    AND l.InstructorID = a.InstructorID "
-                    + "WHERE c.CourseID = ? AND l.LessonID = ? AND c.SchoolYear = ? AND c.Term = ? "
-                    + "ORDER BY s.FirstName";
+            String sql = "Select S.StudentID, S.LastName, S.FirstName, A.AttendanceStatus " +
+                    "From Student S, Attendance A, Course C, Enroll E, Lesson L " +
+                    "Where C.InstructorID = ? " +
+                    "And C.SubjectID = ? " +
+                    "And C.SchoolYear = ? " +
+                    "And C.Term = ? " +
+                    "And L.LessonID = ? " +
+                    "And C.CourseID = E.CourseID " +
+                    "And C.CourseID = A.CourseID " +
+                    "And E.StudentID = S.StudentID " +
+                    "And S.StudentID = E.StudentID " +
+                    "And E.CourseID = C.CourseID " +
+                    "And S.StudentID = A.StudentID " +
+                    "And A.LessonID = L.LessonID " +
+                    "And L.Date = A.Date " +
+                    "Order by S.FirstName ";
             try (PreparedStatement statement = connection.prepareStatement(sql)) {
-                statement.setString(1, subjectID);
-                statement.setInt(2, lessonID);
+                statement.setString(1, this.InstructorID);                
+                statement.setString(2, subjectID);
+                statement.setInt(5, lessonID);
                 statement.setString(3, schoolYear);
                 statement.setString(4, term);
+                
                 try (ResultSet resultSet = statement.executeQuery()) {
                     DefaultTableModel newModel = new DefaultTableModel(
                             new Object[][]{},
