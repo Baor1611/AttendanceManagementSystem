@@ -401,11 +401,9 @@ public class MainFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_viewButtonActionPerformed
 
     private int calculateAbsenceCount(Connection connection, String studentID, String subjectID) throws SQLException {
-        String absenceCountQuery = "SELECT SUM(CASE WHEN AttendanceStatus = 0 THEN 1 ELSE 0 END) AS TotalAbsenceCount "
-                + "FROM Attendance a "
-                + "JOIN Lesson l ON a.CourseID = l.CourseID AND a.LessonID = l.LessonID "
-                + "JOIN Course c ON a.CourseID = c.CourseID "
-                + "WHERE a.StudentID = ? AND c.SubjectID = ?";
+        String absenceCountQuery = "SELECT SUM(CASE WHEN AttendanceStatus =0 THEN 1 ELSE 0 END) AS TotalAbsenceCount \n" +
+"                 FROM Attendance a\n" +
+"                 WHERE a.StudentID = ? AND a.CourseID = ?";
         try (PreparedStatement countStatement = connection.prepareStatement(absenceCountQuery)) {
             countStatement.setString(1, studentID);
             countStatement.setString(2, subjectID);
