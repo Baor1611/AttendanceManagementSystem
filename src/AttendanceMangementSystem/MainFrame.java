@@ -367,7 +367,7 @@ public class MainFrame extends javax.swing.JFrame {
 
             String sql = "Select S.StudentID, S.LastName, S.FirstName, SUM(A.AttendanceStatus) as Absence " 
                     + "From Student S, Attendance A, Course C, Enroll E " 
-                    + "Where C.InstructorID = ? And C.SubjectID = ? And C.SchoolYear = ? And C.Term = ? " 
+                    + "Where C.SubjectID = ? And C.SchoolYear = ? And C.Term = ? " 
                     + "And C.CourseID = E.CourseID " 
                     + "And C.CourseID = A.CourseID " 
                     + "And E.StudentID = S.StudentID " 
@@ -376,10 +376,10 @@ public class MainFrame extends javax.swing.JFrame {
                     + "Order by S.FirstName ";
            
             try (PreparedStatement statement = connection.prepareStatement(sql)) {                
-                statement.setString(1, InstructorID);                
-                statement.setString(2, subjectID);
-                statement.setString(3, schoolYear);
-                statement.setString(4, term);
+                // statement.setString(1, InstructorID);                
+                statement.setString(1, subjectID);
+                statement.setString(2, schoolYear);
+                statement.setString(3, term);
                 try (ResultSet resultSet = statement.executeQuery()) {
                     DefaultTableModel newModel = new DefaultTableModel(
                             new Object[][]{},
